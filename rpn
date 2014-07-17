@@ -17,8 +17,6 @@ my ($arg1, $arg2);
 my $eq=0; # the eval below is hard without this.
 my $operators=qr{(-|\+|\*|\/|\*\*|\^|\||\&)};
 my $functions=qr{(exp|cos|int|log|sin|tan)};
-# I would rather build the constants RE from the hash
-my $constants=qr{(e|pi|π|2pi|2π|tau|τ)};
 my %constants=(
 	"e"   => 2.718281828459045,
 	"pi"  => 3.141592653589793,
@@ -51,8 +49,8 @@ for (@ARGV) {
 		print "$1($arg1) = $eq\n" if $VERBOSE;
 		push @stack, $eq;
 	}
-	elsif (m/^$constants$/) {
-		push @stack, $constants{$1};
+	elsif ($_ ~~ %constants) {
+		push @stack, $constants{$_};
 	}	
 	else {
 		die "$_? Really?\n";

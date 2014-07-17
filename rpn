@@ -1,5 +1,8 @@
 #!/usr/bin/perl -T -w
 #
+# Since I was asked,
+# (C) 2014 John H. Robinson, IV <jaqque@gmail.com>
+#
 # Simple RPN calculator. Accepts the four standard operators (+ - * /),
 # some fancier operators (**, &, |, ^),
 # and some trig functions (natural log, inverse natural log, sine, cosine, and
@@ -7,10 +10,11 @@
 # Supports a few common constants (e, pi, and tau)
 # Since pi is half right, supports 2pi as well
 
+use Scalar::Util qw(looks_like_number);
+
 my @stack=("Stack underflow");
 my ($arg1, $arg2);
 my $eq=0; # the eval below is hard without this.
-my $numbers=qr{((|-)(\d*(\.)\d+|\d+(|\.)\d*))};
 my $operators=qr{(-|\+|\*|\/|\*\*|\^|\||\&)};
 my $functions=qr{(exp|cos|int|log|sin|tan)};
 # I would rather build the constants RE from the hash
@@ -28,8 +32,9 @@ my %constants=(
 $VERBOSE=0;
 
 for (@ARGV) {
-	if (m/^$numbers$/) {
-		push @stack, $1;
+	if (looks_like_number ($_)) {
+		m/(.*)/; # We can trust looks_like_number(). I hope.
+		push @stack, eval $1;
 	}
 	elsif (m/^$operators$/) {
 		die "$stack[0]\n" if ($#stack<2); # binary

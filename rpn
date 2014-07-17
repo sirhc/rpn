@@ -45,6 +45,10 @@ for (@ARGV) {
 		m/(.*)/; # We can trust looks_like_number(). I hope.
 		push @stack, eval $1;
 	}
+	elsif ($_ ~~ %constants) {
+		print "$_ is $constants{$_}\n" if $VERBOSE;
+		push @stack, $constants{$_};
+	}
 	elsif (m/^$operators$/) {
 		die "$stack[0]\n" if ($#stack<2); # binary
 		$arg2=pop @stack;
@@ -52,6 +56,13 @@ for (@ARGV) {
 		eval "\$eq = $arg1 $1 $arg2";
 		print "$arg1 $1 $arg2 = $eq\n" if $VERBOSE;
 		push @stack, $eq;
+	}
+	elsif (m/^swap$/) {
+		die "$stack[0]\n" if ($#stack<2); # binary
+		$arg2=pop @stack;
+		$arg1=pop @stack;
+		print "swapping $arg1 and $arg2\n" if $VERBOSE;
+		push @stack, ($arg2, $arg1);
 	}
 	elsif (m/^$functions$/) {
 		die "$stack[0]\n" if ($#stack<1); # unary
@@ -68,17 +79,6 @@ for (@ARGV) {
 		print "$1($arg1) = $eq\n" if $VERBOSE;
 		push @stack, $eq;
 	}
-	elsif (m/^swap$/) {
-		die "$stack[0]\n" if ($#stack<2); # binary
-		$arg2=pop @stack;
-		$arg1=pop @stack;
-		print "swapping $arg1 and $arg2\n" if $VERBOSE;
-		push @stack, ($arg2, $arg1);
-	}
-	elsif ($_ ~~ %constants) {
-		print "$_ is $constants{$_}\n" if $VERBOSE;
-		push @stack, $constants{$_};
-	}	
 	else {
 		die "$_? Really?\n";
 	}

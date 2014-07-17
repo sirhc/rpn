@@ -40,6 +40,11 @@ my %constants=(
 
 $VERBOSE=0;
 
+if ($ARGV[0] eq '-v') {
+	$VERBOSE=1;
+	shift @ARGV;
+}
+
 for (@ARGV) {
 	if (looks_like_number ($_)) {
 		m/(.*)/; # We can trust looks_like_number(). I hope.

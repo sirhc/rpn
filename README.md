@@ -56,7 +56,7 @@ Examples:
 2
 ```
 
-* Swapping the stack
+* Manipulating the stack
 
 ```ShellSession
 % rpn 2 3 / # 2 divded by 3
@@ -64,6 +64,9 @@ Examples:
 
 % rpn 2 3 swap / # 3 divded by 2
 1.5
+
+% rpn 2 dupl * # 2 times 2
+4
 ```
 
 * Basic trig functions
@@ -127,6 +130,40 @@ x=5.340707511102650; sin(x)^2 + cos(x)^2 = 1.000000000000000
 x=5.654866776461630; sin(x)^2 + cos(x)^2 = 1.000000000000000
 x=5.969026041820610; sin(x)^2 + cos(x)^2 = 1.000000000000000
 x=6.283185307179590; sin(x)^2 + cos(x)^2 = 1.000000000000000
+```
+
+Hints
+-----
+
+If you use zsh, using noglob is helpful.
+
+```ShellSession
+% rpn 1 2 * # the * is globbed, expanding to all files in current directory
+LICENSE? Really?
+
+% noglob rpn 1 2 * # this time, the * is passed through
+2
+
+% alias rpn='noglob rpn'; # aliases are helpful
+% rpn 2 3 **
+8
+```
+
+If you use bash, quote the arguments a lot.
+
+```ShellSession
+$ noglob rpn 2 3 * # oops!
+bash: noglob: command not found
+
+$ set +o noglob
+$ rpn 2 3 * # oops, bash ignores +o noglob
+LICENSE? Really?
+
+$ set -f
+$ set -o | grep glob
+noglob         	on
+$ rpn 2 3 * # "This time, for sure! Presto!" -Bullwinkle J. Moose
+6
 ```
 
 [pi]: http://www.math.utah.edu/~palais/pi.html "Pi is Wrong!"

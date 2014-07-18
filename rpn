@@ -13,20 +13,20 @@
 use Scalar::Util qw(looks_like_number);
 
 my @stack=("Stack underflow");
-my ($arg1, $arg2);
+my ($x, $y);
 my $eq=0; # the eval below is hard without this.
 my @operators=qw{ - + * / ** ^ | & };
 my @functions=qw{ abs cos exp int log rand sin sqrt };
 my %extra_functions=(
 	# http://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Relationships_among_the_inverse_trigonometric_functions
 	# from the half-angle formula
-	"acos" => '2 * atan2( sqrt( 1 - $arg1 ** 2 ) / ( 1 + $arg1 ), 1 )',
-	"asin" => '2 * atan2( $arg1 / ( 1 + sqrt( 1 - $arg1 ** 2 ) ) , 1 )',
-	"atan" => 'atan2( $arg1, 1 )',
-	"cot"  => 'cos($arg1) / sin($arg1)',
-	"csc"  => '1 / sin($arg1)',
-	"sec"  => '1 / cos($arg1)',
-	"tan"  => 'sin($arg1) / cos($arg1)',
+	"acos" => '2 * atan2( sqrt( 1 - $x ** 2 ) / ( 1 + $x ), 1 )',
+	"asin" => '2 * atan2( $x / ( 1 + sqrt( 1 - $x ** 2 ) ) , 1 )',
+	"atan" => 'atan2( $x, 1 )',
+	"cot"  => 'cos($x) / sin($x)',
+	"csc"  => '1 / sin($x)',
+	"sec"  => '1 / cos($x)',
+	"tan"  => 'sin($x) / cos($x)',
 );
 my %constants=(
 	"e"   => 2.718281828459045,
@@ -58,40 +58,40 @@ for (@ARGV) {
 		elsif ($_ ~~ @operators) {
 			die "$stack[0]\n" if ($#stack<2); # binary
 			m/(.*)/; # We can trust it - it's an array member
-			$arg2=pop @stack;
-			$arg1=pop @stack;
-			eval "\$eq = ($arg1) $1 ($arg2)";
-			print "$arg1 $1 $arg2 = $eq\n" if $VERBOSE;
+			$y=pop @stack;
+			$x=pop @stack;
+			eval "\$eq = ($x) $1 ($y)";
+			print "$x $1 $y = $eq\n" if $VERBOSE;
 			push @stack, $eq;
 		}
 		elsif (m/^swap$/) {
 			die "$stack[0]\n" if ($#stack<2); # binary
-			$arg2=pop @stack;
-			$arg1=pop @stack;
-			print "swapping $arg1 and $arg2\n" if $VERBOSE;
-			push @stack, ($arg2, $arg1);
+			$y=pop @stack;
+			$x=pop @stack;
+			print "swapping $x and $y\n" if $VERBOSE;
+			push @stack, ($y, $x);
 		}
 		elsif ($_ ~~ @functions) {
 			die "$stack[0]\n" if ($#stack<1); # unary
 			m/(.*)/; # We can trust it - it's an array member
-			$arg1=pop @stack;
-			eval "\$eq = $1 $arg1";
-			print "$1($arg1) = $eq\n" if $VERBOSE;
+			$x=pop @stack;
+			eval "\$eq = $1 $x";
+			print "$1($x) = $eq\n" if $VERBOSE;
 			push @stack, $eq;
 		}
 		elsif ($_ ~~ %extra_functions) {
 			die "$stack[0]\n" if ($#stack<1); # unary
 			m/(.*)/; # We can trust it - it's a hash key
-			$arg1=pop @stack;
+			$x=pop @stack;
 			eval "\$eq = $extra_functions{$1}";
-			print "$1($arg1) = $eq\n" if $VERBOSE;
+			print "$1($x) = $eq\n" if $VERBOSE;
 			push @stack, $eq;
 		}
 		elsif (m/^dupl$/) {
 			die "$stack[0]\n" if ($#stack<1); # unary
-			$arg1=pop @stack;
-			print "duplicating $arg1\n" if $VERBOSE;
-			push @stack, ($arg1, $arg1);
+			$x=pop @stack;
+			print "duplicating $x\n" if $VERBOSE;
+			push @stack, ($x, $x);
 		}
 		else {
 			die "$_? Really?\n";

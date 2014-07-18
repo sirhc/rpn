@@ -60,7 +60,7 @@ for (@ARGV) {
 			m/(.*)/; # We can trust it - it's an array member
 			$arg2=pop @stack;
 			$arg1=pop @stack;
-			eval "\$eq = $arg1 $1 $arg2";
+			eval "\$eq = ($arg1) $1 ($arg2)";
 			print "$arg1 $1 $arg2 = $eq\n" if $VERBOSE;
 			push @stack, $eq;
 		}

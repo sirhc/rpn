@@ -10,6 +10,8 @@ Supports:
 * Common trigonometric functions (cosine, sine, tangent)
 * Logarithmic functions (natural log, inverse natural log)
 * Common (and uncommon) constants (e, [pi][], [tau][])
+* Swapping the last two values on the stack
+* Duplicating the last value on the stack
 
 
 [pi]: http://www.math.utah.edu/~palais/pi.html "Pi is Wrong!"

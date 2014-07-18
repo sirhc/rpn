@@ -10,6 +10,7 @@
 # Supports a few common constants (e, pi, and tau)
 # Since pi is half right, supports 2pi as well
 
+use strict;
 use Scalar::Util qw(looks_like_number);
 
 my @stack=("Stack underflow");
@@ -38,7 +39,7 @@ my %constants=(
 	"τ"   => 6.283185307179586,
 );
 
-$VERBOSE=0;
+my $VERBOSE=0;
 
 if ($#ARGV != -1 && $ARGV[0] eq '-v') {
 	$VERBOSE=1;

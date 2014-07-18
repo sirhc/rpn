@@ -17,6 +17,8 @@ Supports:
 Examples:
 ---------
 
+* Basic math
+
 ```ShellSession
 % rpn 2 2 + # 2 plus 2
 4
@@ -26,7 +28,11 @@ Examples:
 
 % rpn 1 2 3 * - # 2 times 3, subtracted from 1
 -5
+```
 
+* Fancier operations and functions
+
+```ShellSession
 % rpn 2 3 ** # 2 raised to the 3rd power
 8
 
@@ -35,19 +41,34 @@ Examples:
 
 % rpn 2 sqrt # square root of 2
 1.4142135623731
+```
 
+* Bitwise operations
+
+```ShellSession
 % rpn '1 2 |' # 1 bitwise or 2
 3
 
 % rpn '1 3 &' # 1 bitwise and 3
 1
 
+% rpn '1 3 ^' # 1 bitwise exclusive or 3
+2
+```
+
+* Swapping the stack
+
+```ShellSession
 % rpn 2 3 / # 2 divded by 3
 0.666666666666667
 
 % rpn 2 3 swap / # 3 divded by 2
 1.5
+```
 
+* Basic trig functions
+
+```ShellSession
 % rpn 2pi 8 / cos # 1/8th around a circle (cosine)
 0.707106781186547
 
@@ -73,7 +94,6 @@ duplicating 6.28318530717959
 int(6.28318530717959) = 6
 6.28318530717959 - 6 = 0.28318530717959
 0.28318530717959
-
 ```
 
 * sin(x)^2 + cos(x)^2, 20 steps around a circle, 15 digits display precision:
@@ -108,5 +128,6 @@ x=5.654866776461630; sin(x)^2 + cos(x)^2 = 1.000000000000000
 x=5.969026041820610; sin(x)^2 + cos(x)^2 = 1.000000000000000
 x=6.283185307179590; sin(x)^2 + cos(x)^2 = 1.000000000000000
 ```
+
 [pi]: http://www.math.utah.edu/~palais/pi.html "Pi is Wrong!"
 [tau]: http://www.tauday.com "No, really, pi is wrong."

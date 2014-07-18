@@ -56,7 +56,7 @@ for (@ARGV) {
 	}
 	elsif ($_ ~~ @operators) {
 		die "$stack[0]\n" if ($#stack<2); # binary
-		m/(.*)/; # We can trust it - it's a hash key
+		m/(.*)/; # We can trust it - it's an array member
 		$arg2=pop @stack;
 		$arg1=pop @stack;
 		eval "\$eq = $arg1 $1 $arg2";
@@ -72,7 +72,7 @@ for (@ARGV) {
 	}
 	elsif ($_ ~~ @functions) {
 		die "$stack[0]\n" if ($#stack<1); # unary
-		m/(.*)/; # We can trust it - it's a hash key
+		m/(.*)/; # We can trust it - it's an array member
 		$arg1=pop @stack;
 		eval "\$eq = $1 $arg1";
 		print "$1($arg1) = $eq\n" if $VERBOSE;

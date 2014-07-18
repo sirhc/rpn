@@ -11,6 +11,7 @@
 # Since pi is half right, supports 2pi as well
 
 use strict;
+no if $] >= 5.018, 'warnings', 'experimental';
 use Scalar::Util qw(looks_like_number);
 
 my @stack=("Stack underflow");

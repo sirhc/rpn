@@ -149,20 +149,17 @@ LICENSE? Really?
 8
 ```
 
-If you use bash, quote the arguments a lot.
+If you use bash, quote the arguments.
 
 ```ShellSession
-$ noglob rpn 2 3 * # oops!
-bash: noglob: command not found
-
-$ set +o noglob
-$ rpn 2 3 * # oops, bash ignores +o noglob
+$ rpn 2 3 * # globbing
 LICENSE? Really?
 
+$ rpn 2 3 \* # quoting
+6
+
 $ set -f
-$ set -o | grep glob
-noglob         	on
-$ rpn 2 3 * # "This time, for sure! Presto!" -Bullwinkle J. Moose
+$ rpn 2 3 * # use set +f to re-enable globbing
 6
 ```
 
